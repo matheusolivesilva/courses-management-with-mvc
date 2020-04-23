@@ -23,7 +23,7 @@ class Course
          return $this->id;
     }
    
-    public function setId(int $id): voud
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
