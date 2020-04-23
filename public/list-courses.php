@@ -17,6 +17,7 @@ $courses = $repositoryOfCourses->findAll();
     <div class="jumbotron">
         <h1>List Courses</h1>
     </div>
+    <a href="new-course-form.php" class="btn btn-primary mb-2"></a>
     <ul class="list-group">
         <?php foreach ($courses as $course): ?>
 	    <li class="list-group-item">
