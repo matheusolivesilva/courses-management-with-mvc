@@ -3,7 +3,7 @@
 namespace Alura\Courses\Controller;
 use Alura\Courses\Entity\Course;
 use Alura\Courses\Infra\EntityManagerCreator;
-class ListCourses
+class ListCourses implements InterfaceRequisitionController
 {
 
     private $repositoryOfCourses;
@@ -13,7 +13,7 @@ class ListCourses
         $this->repositoryOfCourses = $entityManager->getRepository(Course::class);
     }
 
-    public function processRequisition()
+    public function processRequisition(): void
     {
         $courses = $this->repositoryOfCourses->findAll();
 	?>

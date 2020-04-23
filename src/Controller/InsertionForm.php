@@ -2,9 +2,9 @@
 
 namespace Alura\Courses\Controller;
 
-class InsertionForm
+class InsertionForm implements InterfaceRequisitionController
 {
-    public function processRequisition()
+    public function processRequisition(): void
     {
         ?>
 
