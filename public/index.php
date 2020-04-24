@@ -7,11 +7,11 @@ use Alura\Courses\Controller\InsertionForm;
 switch($_SERVER['PATH_INFO']) {
     case '/list-courses':
         $controller = new ListCourses();
-	$controller->processRequisition();
+	$controller->processRequest();
 	break;
     case '/new-course':
         $controller = new InsertionForm();
-	$controller->processRequisition();
+	$controller->processRequest();
 	break;
     default:
         echo "Error 404";
