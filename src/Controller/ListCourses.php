@@ -16,6 +16,7 @@ class ListCourses implements InterfaceRequestController
     public function processRequest(): void
     {
         $courses = $this->repositoryOfCourses->findAll();
-	require __DIR__ . '/../../view/courses/list-courses.php';
+        $title = "Courses";
+        require __DIR__ . '/../../view/courses/list-courses.php';
     }
 }
