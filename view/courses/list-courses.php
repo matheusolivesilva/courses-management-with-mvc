@@ -1,4 +1,4 @@
-<?php include __DIR__ .'/../header.php' ?>
+<?php require __DIR__ .'/../header.php' ?>
     <a href="new-course" class="btn btn-primary mb-2">New Course</a>
     <ul class="list-group">
 	<?php foreach ($courses as $course): ?>
@@ -8,4 +8,4 @@
 	<?php endforeach; ?>
     </ul>
 </div>
-<?php include __DIR__ .'/../footer.php' ?>
+<?php require __DIR__ .'/../footer.php' ?>
