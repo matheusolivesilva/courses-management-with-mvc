@@ -33,7 +33,7 @@ class Course
         return $this->description;
     }
 
-    public function setDescription(string $description): voud
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
