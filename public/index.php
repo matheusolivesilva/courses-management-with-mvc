@@ -1,24 +1,20 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use Alura\Courses\Controller\ListCourses;
-use Alura\Courses\Controller\Persistence;
-use Alura\Courses\Controller\InsertionForm;
+use Alura\Courses\Controller\InterfaceRequestController;
 
-switch($_SERVER['PATH_INFO']) {
-    case '/list-courses':
-        $controller = new ListCourses();
-	$controller->processRequest();
-	break;
-    case '/new-course':
-        $controller = new InsertionForm();
-	$controller->processRequest();
-	break;
-    case '/save-course':
-        $controller = new Persistence();
-	$controller->processRequest();
-	break;
-    default:
-        echo "Error 404";
+$path = $_SERVER['PATH_INFO'];
+$routes = require __DIR__ . '/../config/routes.php';
+
+if (!array_key_exists($path, $routes)) {
+    http_response_code(404);
+    exit();
 }
+
+$controllerClass = $routes[$path];
+
+/** @var IntarfaceRequestController $controller */
+
+$controller = new $controllerClass();
+$controller->processRequest();
 
