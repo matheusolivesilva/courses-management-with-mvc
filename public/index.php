@@ -2,6 +2,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Alura\Courses\Controller\ListCourses;
+use Alura\Courses\Controller\Persistence;
 use Alura\Courses\Controller\InsertionForm;
 
 switch($_SERVER['PATH_INFO']) {
@@ -11,6 +12,10 @@ switch($_SERVER['PATH_INFO']) {
 	break;
     case '/new-course':
         $controller = new InsertionForm();
+	$controller->processRequest();
+	break;
+    case '/save-course':
+        $controller = new Persistence();
 	$controller->processRequest();
 	break;
     default:
