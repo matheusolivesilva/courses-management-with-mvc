@@ -13,7 +13,7 @@ if (!array_key_exists($path, $routes)) {
 
 $controllerClass = $routes[$path];
 
-/** @var IntarfaceRequestController $controller */
+/** @var InterfaceRequestController $controller */
 
 $controller = new $controllerClass();
 $controller->processRequest();
