@@ -2,11 +2,13 @@
 
 namespace Alura\Courses\Controller;
 
-class InsertionForm implements InterfaceRequestController
+class InsertionForm extends ControllerWithHtml implements InterfaceRequestController
 {
     public function processRequest(): void
     {
-	$title = 'New Course';
-        require __DIR__ .'/../../view/courses/form.php';
+        echo $this->renderHtml('courses/form.php', [
+	    'title' => 'New Course'
+	]);
+
     }
 }
