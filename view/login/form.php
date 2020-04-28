@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/../header.php'; ?>
 
-    <form action="do-login" method="post">
+    <form action="sign-in" method="post">
         <div class="form-group">
             <label for="email">Email</label>
 	    <input type="email" name="email" id="email" class="form-control">
