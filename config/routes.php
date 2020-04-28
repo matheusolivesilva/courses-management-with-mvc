@@ -1,6 +1,6 @@
 <?php
 
-use Alura\Courses\Controller\{InsertionForm, ListCourses,Persistence, Delete, UpdateFormm, LoginForm};
+use Alura\Courses\Controller\{InsertionForm, ListCourses,Persistence, Delete, UpdateFormm, LoginForm, DoLogin};
 
 return [
     '/list-courses' => ListCourses::class,
@@ -8,6 +8,7 @@ return [
     '/save-course' => Persistence::class,
     '/delete-course' => Delete::class,
     '/update-course' => UpdateForm::class,
-    '/login' => LoginForm::class
+    '/login' => LoginForm::class,
+    '/sign-in' => DoLogin::class
 ];
 
