@@ -11,6 +11,8 @@ if (!array_key_exists($path, $routes)) {
     exit();
 }
 
+session_start();
+
 $controllerClass = $routes[$path];
 
 /** @var InterfaceRequestController $controller */

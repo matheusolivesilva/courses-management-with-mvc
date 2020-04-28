@@ -37,6 +37,8 @@ class DoLogin implements InterfaceRequestController
             echo 'Invalid e-mail or password';
 	    return;
 	}
+
+	$_SESSION['logged'] = true;
         header('Location: /list-courses');
     }
 }
