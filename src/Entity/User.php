@@ -1,6 +1,6 @@
 <?php
 
-namespace Alura\Storage\Entity;
+namespace Alura\Courses\Entity;
 /**
  * @Entity
  * @Table(name="users")
