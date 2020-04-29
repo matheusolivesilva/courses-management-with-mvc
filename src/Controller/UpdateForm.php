@@ -3,9 +3,11 @@
 namespace Alura\Courses\Controller;
 use Alura\Courses\Entity\Course;
 use Alura\Courses\Infra\EntityManagerCreator;
+use Alura\Courses\Helper\HtmlRendererTrait;
 
-class UpdateForm  extends ControllerWithHtml implements InterfaceRequestController
+class UpdateForm  implements InterfaceRequestController
 {
+    use HtmlRendererTrait;
 
     /**
      * @var \Doctrine\Common\Persistence\ObjectRepository
