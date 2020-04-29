@@ -22,8 +22,10 @@ class DoLogin implements InterfaceRequestController
 	);
 
 	if (is_null($email) || $email === false) {
-            echo 'Invalid email';
-	    exit();
+		$_SESSION['message_type'] = 'danger';
+		$_SESSION['message'] = 'Email entered is not a valid email';
+		header('Location: /login');
+		exit();
 	}
 
 	$password = filter_input(INPUT_POST,
@@ -34,8 +36,10 @@ class DoLogin implements InterfaceRequestController
 	    ->findOneBy(['email' => $email]); 
 
 	if (is_null($user) || $user->isPasswordCorrect($password)) {
-            echo 'Invalid e-mail or password';
-	    return;
+		$_SESSION['message_type'] = 'danger';
+		$_SESSION['message'] = 'Email or password entered are not valid';
+		header('Location: /login');
+		return;
 	}
 
 	$_SESSION['logged'] = true;

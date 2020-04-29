@@ -1,6 +1,6 @@
 <?php
 
-use Alura\Courses\Controller\{InsertionForm, ListCourses,Persistence, Delete, UpdateFormm, LoginForm, DoLogin, Logout};
+use Alura\Courses\Controller\{InsertionForm, ListCourses,Persistence, Delete, UpdateForm, LoginForm, DoLogin, Logout};
 
 return [
     '/list-courses' => ListCourses::class,
