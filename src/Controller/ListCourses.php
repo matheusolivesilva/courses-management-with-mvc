@@ -1,25 +1,34 @@
 <?php
 
 namespace Alura\Courses\Controller;
-use Alura\Courses\Entity\Course;
-use Alura\Courses\Infra\EntityManagerCreator;
-use Alura\Courses\Helper\HtmlRendererTrait;
 
-class ListCourses implements InterfaceRequestController
+use Alura\Courses\Entity\Course;
+use Alura\Courses\Helper\HtmlRendererTrait;
+use Doctrine\ORM\EntityManagerInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class ListCourses implements RequestHandlerInterface 
 {
     use HtmlRendererTrait;
-    private $repositoryOfCourses;
-    public function __construct()
+    
+    private $coursesRepository;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $entityManager = (new EntityManagerCreator())->getEntityManager();
-        $this->repositoryOfCourses = $entityManager->getRepository(Course::class);
+        $this->coursesRepository = $entityManager
+	    ->getRepository(Course::class);
     }
 
-    public function processRequest(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-       echo $this->renderHtml('courses/list-courses.php', [
-	    'courses' => $this->repositoryOfCourses->findAll(),
+       $html = $this->renderHtml('courses/list-courses.php', [
+	    'courses' => $this->coursesRepository->findAll(),
 	    'title' => 'Courses'
 	]);
+
+	return new Response(200, [], $html);
     }
 }

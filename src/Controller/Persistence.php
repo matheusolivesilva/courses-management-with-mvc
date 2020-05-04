@@ -4,48 +4,54 @@ namespace Alura\Courses\Controller;
 
 use Alura\Courses\Entity\Course;
 use Alura\Courses\Helper\FlashMessageTrait;
-use Alura\Courses\Infra\EntityManagerCreator;
+use Doctrine\ORM\EntityManagerInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class Persistence implements InterfaceRequestController
+class Persistence implements RequestHandlerInterface 
 {
     use FlashMessageTrait;
+
     /**
      * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $entityManager;
     
-    public function __construct()
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = (new EntityManagerCreator())->getEntityManager();
+        $this->entityManager = $entityManager; 
     }
 
-    public function processRequest(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $description = filter_input(
-            INPUT_POST,
-            'description',
-            FILTER_SANITIZE_STRING);
+        $description = filter_var(
+            $request->getParsedBody()['description'],
+            FILTER_SANITIZE_STRING
+	);
         
 	    $course = new Course();
 	    $course->setDescription($description);
 
-        $id = filter_input(INPUT_GET,
-            'id',
-            FILTER_VALIDATE_INT);
+        $id = filter_var(
+            $request->getQueryParams()['id'],
+            FILTER_VALIDATE_INT
+	);
 
-            $type = 'success';
+        $type = 'success';
 
         if (!is_null($id) && $id !== false) {
             $course->setId($id);
             $this->entityManager->merge($course);
             $this->defineMessage($type, 'Course successfully updated!' );
-	    } else {
+	} else {
             $this->entityManager->persist($course);
             $this->defineMessage($type, 'Course successfully inserted!' );
         }
-        $_SESSION['message_type'] = $type;
         $this->entityManager->flush();
-        header('Location: /list-courses', true, 302); 
+
+	return new Response(302, ['Location' => '/list-courses']);
     }
 
 }

@@ -1,10 +1,16 @@
 <?php
-namespace Alura\Courses\Controller;
-use Alura\Courses\Entity\User;
-use Alura\Courses\Infra\EntityManagerCreator;
-use Alura\Courses\Helper\FlashMessageTrait;
 
-class DoLogin implements InterfaceRequestController
+namespace Alura\Courses\Controller;
+
+use Alura\Courses\Entity\User;
+use Alura\Courses\Helper\FlashMessageTrait;
+use Doctrine\ORM\EntityManagerInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class DoLogin implements RequestHandlerInterface 
 {
 	use FlashMessageTrait;
     /**
@@ -12,38 +18,44 @@ class DoLogin implements InterfaceRequestController
      */
     private $usersRepository;
 
-    public function __construct(){
-        $entityManager = (new EntityManagerCreator())->getEntitymanager();
-	$this->usersRepository = $entityManager->getRepository(User::class);
+    public function __construct(EntityManagerInterface $entityManager){
+	$this->usersRepository = $entityManager
+	    ->getRepository(User::class);
     }
 
-    public function processRequest(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $email = filter_input(INPUT_POST,
-	    'email',
+        $email = filter_var(
+	    $request->getParsedBody()['email'],
 	    FILTER_VALIDATE_EMAIL
-		);
+	);
 
-		if (is_null($email) || $email === false) {
-			$this->defineMessage('danger','Email entered is not a valid email' );
-			header('Location: /login');
-			exit();
-		}
+        $redirectLogin = new Response(302, ['Location' => '/login']);
+	if (is_null($email) || $email === false) {
+            $this->defineMessage(
+	        'danger',
+		'Email entered is not a valid email'
+	    );
 
-		$password = filter_input(INPUT_POST,
-			'password',
-			FILTER_SANITIZE_STRING);
-			/** @var $user */
-		$user = $this->usersRepository
-			->findOneBy(['email' => $email]); 
+	    return $redirectLogin; 
+	}
 
-		if (is_null($user) || !$user->isPasswordCorrect($password)) {
-			$this->defineMessage('danger', 'Email or password entered are not valid');
-			header('Location: /login');
-			return;
-		}
+	$password = filter_var(
+	    $request->getParsedBody()['password'],
+	    FILTER_SANITIZE_STRING
+        );
 
-		$_SESSION['logged'] = true;
-			header('Location: /list-courses');
+        /** @var $user */
+	$user = $this->usersRepository
+	    	    ->findOneBy(['email' => $email]); 
+
+        if (is_null($user) || !$user->isPasswordCorrect($password)) {
+            $this->defineMessage('danger', 'Email or password entered are not valid');
+	    return $redirectLogin;
+        }
+
+	$_SESSION['logged'] = true;
+        
+	return new Response(302, ['Location' => '/list-courses']);
     }
 }

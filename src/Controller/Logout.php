@@ -2,11 +2,16 @@
 
 namespace Alura\Courses\Controller;
 
-class Logout implements InterfaceRequestController
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class Logout implements RequestHandlerInterface 
 {
-    public function processRequest(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         session_destroy();
-        header('Location: /login');
+	return new Response(302, ['Location' => '/login']);
     }
 }
