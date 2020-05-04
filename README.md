@@ -1,4 +1,4 @@
-# Courses Manager With MVC
+# Courses Management With MVC
 
 This project written with MVC is a CRUD of courses management. It was developed as a part of PHP formation at [Alura](https://alura.com.br).
 
@@ -7,7 +7,7 @@ This project written with MVC is a CRUD of courses management. It was developed 
 This system has some features, such as:
 * Login and logout
 * Capability to create, list, update and delete a course
-* It has two webservices, that provide courses in XML and JSON format (see searchCoursesInJson and searchCoursesInXml routes)
+* It has two webservices, that provide courses in XML and JSON format (inside the config directory, in **routes.php** file, see *searchCoursesInJson* and *searchCoursesInXml* routes)
 
 ## Getting Started
 
