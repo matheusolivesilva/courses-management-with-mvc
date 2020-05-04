@@ -1,7 +1,10 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-use Alura\Courses\Controller\InterfaceRequestController;
 
 $path = $_SERVER['PATH_INFO'];
 $routes = require __DIR__ . '/../config/routes.php';
@@ -20,10 +23,31 @@ if (!isset($_SESSION['logged']) && $isLoginRoute === false) {
     exit();
 }
 
+$psr17Factory = new Psr17Factory();
+
+$creator = new ServerRequestCreator(
+    $psr17Factory, // ServerRequestFactory
+    $psr17Factory, // UriFactory
+    $psr17Factory, // UploadedFileFactory
+    $psr17Factory, // StreamFactory
+);
+
+$serverRequest = $creator->fromGlobals();
+
 $controllerClass = $routes[$path];
 
-/** @var InterfaceRequestController $controller */
+/** @var ContainerInterface $container */
+$container = require __DIR__ . '/../config/dependencies.php';
 
-$controller = new $controllerClass();
-$controller->processRequest();
+/** @var RequestHandlerInterface $controller */
+$controller = $container->get($controllerClass); 
 
+$response = $controller->handle($serverRequest);
+
+foreach ($response->getHeaders() as $name => $values) {
+    foreach ($values as $value) {
+        header(sprintf('%s: %s', $name, $value), false);
+    }
+}
+
+echo $response->getBody();
