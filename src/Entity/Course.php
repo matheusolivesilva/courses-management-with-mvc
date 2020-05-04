@@ -5,7 +5,7 @@ namespace Alura\Courses\Entity;
  * @Entity
  * @Table(name="courses")
  */
-class Course 
+class Course implements \JsonSerializable
 {
     /**
      * @Id
@@ -36,6 +36,14 @@ class Course
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+	    'description' => $this->description
+	];
     }
 }
 
