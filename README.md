@@ -45,4 +45,4 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ## Authors
 
-* **Matheus Oliveira** - [Github](https://github.com/MatheusOliveiraSilva/) | [Linkedin](https://www.linkedin.com/in/matheusoliveirasilva/)
+* **Matheus Oliveira** - [Github](https://github.com/matheusolivesilva/) | [Linkedin](https://www.linkedin.com/in/matheusoliveirasilva/)
